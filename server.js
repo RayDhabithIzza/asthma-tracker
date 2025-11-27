@@ -9,6 +9,8 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const FEATURE_ORDER = ['smoke_chest_tightness','cold_dust_trigger','family_asthma','exercise_trigger','night_shortness','laugh_trigger','gender','age_group'];
+
 const encode = {
   smoke_chest_tightness: { 'tidak pernah': 0, 'kadang-kadang': 1, 'sering': 2 },
   cold_dust_trigger: { 'tidak': 0, 'iya': 1 },
@@ -22,6 +24,23 @@ const encode = {
 
 const features = [];
 const labels = [];
+const computeScore = (vals) => {
+  const sc = vals.sc;
+  const cd = vals.cd;
+  const fa = vals.fa;
+  const et = vals.et;
+  const ns = vals.ns;
+  const lt = vals.lt;
+  const a = vals.a;
+  const scW = sc === 2 ? 3 : sc === 1 ? 1 : 0;
+  const nsW = ns === 2 ? 3 : ns === 1 ? 1 : 0;
+  const cdW = cd === 1 ? 2 : 0;
+  const etW = et === 1 ? 2 : 0;
+  const ltW = lt === 1 ? 1 : 0;
+  const faW = fa === 1 ? 1 : 0;
+  const ageW = a === 3 ? 1 : 0;
+  return scW + nsW + cdW + etW + ltW + faW + ageW;
+};
 for (let sc = 0; sc <= 2; sc++) {
   for (let cd = 0; cd <= 1; cd++) {
     for (let fa = 0; fa <= 1; fa++) {
@@ -30,19 +49,8 @@ for (let sc = 0; sc <= 2; sc++) {
           for (let lt = 0; lt <= 1; lt++) {
             for (let g = 0; g <= 1; g++) {
               for (let a = 0; a <= 3; a++) {
-                const ageW = a === 0 ? 1 : a === 1 ? 1 : a === 2 ? 2 : 3;
-                const genderW = g === 1 ? 1 : 0;
-                const score = (
-                  sc * 3 +
-                  ns * 3 +
-                  cd * 2 +
-                  fa * 2 +
-                  et * 2 +
-                  lt * 1 +
-                  ageW +
-                  genderW
-                );
-                const label = score <= 3 ? 0 : score <= 6 ? 1 : 2;
+                const score = computeScore({ sc, cd, fa, et, ns, lt, g, a });
+                const label = score <= 2 ? 0 : score <= 5 ? 1 : 2;
                 features.push([sc, cd, fa, et, ns, lt, g, a]);
                 labels.push(label);
               }
@@ -58,33 +66,57 @@ const rfOptions = { seed: 3, maxFeatures: 1, replacement: true, nEstimators: 25 
 const classifier = new RandomForestClassifier(rfOptions);
 classifier.train(features, labels);
 
-app.post('/predict', (req, res) => {
-  const {
-    gender,
-    age_group,
-    smoke_chest_tightness,
-    cold_dust_trigger,
-    family_asthma,
-    exercise_trigger,
-    night_shortness,
-    laugh_trigger
-  } = req.body || {};
+const log = (...args) => {
+  if (process.env.DEBUG === 'true') {
+    console.log(new Date().toISOString(), ...args);
+  }
+};
 
-  const g = encode.gender[gender];
-  const a = encode.age_group[age_group];
-  const sc = encode.smoke_chest_tightness[smoke_chest_tightness];
-  const cd = encode.cold_dust_trigger[cold_dust_trigger];
-  const fa = encode.family_asthma[family_asthma];
-  const et = encode.exercise_trigger[exercise_trigger];
-  const ns = encode.night_shortness[night_shortness];
-  const lt = encode.laugh_trigger[laugh_trigger];
-  if ([g, a, sc, cd, fa, et, ns, lt].some(v => v === undefined)) {
-    res.status(400).json({ error: 'Input tidak valid' });
+const validateInput = (body) => {
+  const required = FEATURE_ORDER;
+  for (const k of required) {
+    if (!(k in body)) return { ok: false, error: `Field '${k}' wajib` };
+  }
+  const sc = encode.smoke_chest_tightness[body.smoke_chest_tightness];
+  const cd = encode.cold_dust_trigger[body.cold_dust_trigger];
+  const fa = encode.family_asthma[body.family_asthma];
+  const et = encode.exercise_trigger[body.exercise_trigger];
+  const ns = encode.night_shortness[body.night_shortness];
+  const lt = encode.laugh_trigger[body.laugh_trigger];
+  const g = encode.gender[body.gender];
+  const a = encode.age_group[body.age_group];
+  const arr = [sc, cd, fa, et, ns, lt, g, a];
+  if (arr.some(v => v === undefined)) return { ok: false, error: 'Input tidak valid' };
+  return { ok: true, vec: [sc, cd, fa, et, ns, lt, g, a] };
+};
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+app.get('/questionnaire', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'questionnaire.html'));
+});
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
+app.post('/predict', (req, res) => {
+  const valid = validateInput(req.body || {});
+  if (!valid.ok) {
+    res.status(400).json({ error: valid.error });
     return;
   }
-  const pred = classifier.predict([[sc, cd, fa, et, ns, lt, g, a]])[0];
+  const vec = valid.vec;
+  const pred = classifier.predict([vec])[0];
+  const score = computeScore({ sc: vec[0], cd: vec[1], fa: vec[2], et: vec[3], ns: vec[4], lt: vec[5], g: vec[6], a: vec[7] });
   const risk = pred === 0 ? 'rendah' : pred === 1 ? 'sedang' : 'tinggi';
+  log('predict', { body: req.body, vec, score, pred, risk });
   res.json({ risk });
+});
+
+app.use((err, req, res, next) => {
+  console.error('error', err && err.stack ? err.stack : err);
+  res.status(500).json({ error: 'Terjadi kesalahan internal' });
 });
 
 app.listen(port, () => {
