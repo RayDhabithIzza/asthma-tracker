@@ -10,5 +10,9 @@
   "dependencies": {
     "express": "^5.1.0",
     "ml-random-forest": "^2.1.0"
-  }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
 }

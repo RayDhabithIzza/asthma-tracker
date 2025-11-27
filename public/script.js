@@ -6,17 +6,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   const form = document.getElementById('risk-form');
-  const breathEl = document.getElementById('breath');
-  const smokeEl = document.getElementById('smoke');
-  const allergyEl = document.getElementById('allergy');
-  const familyEl = document.getElementById('family_history');
-  const diagnosedEl = document.getElementById('diagnosed_other');
-  const exerciseEl = document.getElementById('exercise');
-  const fastFoodEl = document.getElementById('fast_food');
-  const smokingEl = document.getElementById('smoking');
-  const inhalerEl = document.getElementById('inhaler');
-  const medsEl = document.getElementById('meds_breath_cough');
-  const selectEls = [breathEl, smokeEl, allergyEl, familyEl, diagnosedEl, exerciseEl, fastFoodEl, smokingEl, inhalerEl, medsEl];
+  const genderEl = document.getElementById('gender');
+  const ageGroupEl = document.getElementById('age_group');
+  const smokeChestEl = document.getElementById('smoke_chest_tightness');
+  const coldDustEl = document.getElementById('cold_dust_trigger');
+  const familyAsthmaEl = document.getElementById('family_asthma');
+  const exerciseTriggerEl = document.getElementById('exercise_trigger');
+  const nightShortEl = document.getElementById('night_shortness');
+  const laughTriggerEl = document.getElementById('laugh_trigger');
+  const selectEls = [genderEl, ageGroupEl, smokeChestEl, coldDustEl, familyAsthmaEl, exerciseTriggerEl, nightShortEl, laughTriggerEl];
   if (form) {
     const submitBtn = form.querySelector('.btn');
     const modalOverlay = document.getElementById('result-modal');
@@ -27,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const updateButtonState = () => {
       submitBtn.disabled = false;
-      [breathEl, smokeEl, allergyEl].forEach(sel => {
+      [smokeChestEl, nightShortEl].forEach(sel => {
         const wrap = sel.nextElementSibling;
         const btn = wrap && wrap.querySelector('.cselect-toggle');
         if (btn) btn.classList.remove('error');
@@ -37,23 +35,21 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     updateButtonState();
-    const allSelects = [breathEl, smokeEl, allergyEl, familyEl, diagnosedEl, exerciseEl, fastFoodEl, smokingEl, inhalerEl, medsEl];
+    const allSelects = [genderEl, ageGroupEl, smokeChestEl, coldDustEl, familyAsthmaEl, exerciseTriggerEl, nightShortEl, laughTriggerEl];
     allSelects.forEach(el => el.addEventListener('change', updateButtonState));
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const breath = breathEl.value;
-      const smoke = smokeEl.value;
-      const allergy = allergyEl.value;
-      const family_history = familyEl.value;
-      const diagnosed_other = diagnosedEl.value;
-      const exercise = exerciseEl.value;
-      const fast_food = fastFoodEl.value;
-      const smoking = smokingEl.value;
-      const inhaler = inhalerEl.value;
-      const meds_breath_cough = medsEl.value;
+      const gender = genderEl.value;
+      const age_group = ageGroupEl.value;
+      const smoke_chest_tightness = smokeChestEl.value;
+      const cold_dust_trigger = coldDustEl.value;
+      const family_asthma = familyAsthmaEl.value;
+      const exercise_trigger = exerciseTriggerEl.value;
+      const night_shortness = nightShortEl.value;
+      const laugh_trigger = laughTriggerEl.value;
 
-      if (!breath || !smoke || !allergy || !family_history || !diagnosed_other || !exercise || !fast_food || !smoking || !inhaler || !meds_breath_cough) {
+      if (!gender || !age_group || !smoke_chest_tightness || !cold_dust_trigger || !family_asthma || !exercise_trigger || !night_shortness || !laugh_trigger) {
         const selects = allSelects;
         const firstEmpty = selects.find(s => !s.value);
         selects.forEach(s => {
@@ -79,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const res = await fetch('/predict', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ breath_shortness: breath, smoke_exposure: smoke, allergy, family_history, diagnosed_other, exercise, fast_food, smoking, inhaler, meds_breath_cough })
+          body: JSON.stringify({ gender, age_group, smoke_chest_tightness, cold_dust_trigger, family_asthma, exercise_trigger, night_shortness, laugh_trigger })
         });
         if (!res.ok) {
           const err = await res.json().catch(() => ({}));
@@ -100,19 +96,17 @@ document.addEventListener('DOMContentLoaded', () => {
           modalAnswersEl.innerHTML = '';
           const getLabelText = (id) => document.querySelector(`label[for="${id}"]`)?.textContent || '';
           const getSelectedText = (sel) => sel && sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : '';
-          const pairs = [
-            ['breath', breathEl],
-            ['smoke', smokeEl],
-            ['allergy', allergyEl],
-            ['family_history', familyEl],
-            ['diagnosed_other', diagnosedEl],
-            ['exercise', exerciseEl],
-            ['fast_food', fastFoodEl],
-            ['smoking', smokingEl],
-            ['inhaler', inhalerEl],
-            ['meds_breath_cough', medsEl]
+          const answerPairs = [
+            ['gender', genderEl],
+            ['age_group', ageGroupEl],
+            ['smoke_chest_tightness', smokeChestEl],
+            ['cold_dust_trigger', coldDustEl],
+            ['family_asthma', familyAsthmaEl],
+            ['exercise_trigger', exerciseTriggerEl],
+            ['night_shortness', nightShortEl],
+            ['laugh_trigger', laughTriggerEl]
           ];
-          const answersHtml = '<ul class="answer-list">' + pairs.map(([id, sel]) => {
+          const answersHtml = '<ul class="answer-list">' + answerPairs.map(([id, sel]) => {
             const q = getLabelText(id);
             const a = getSelectedText(sel);
             return `<li>${q} (${a})`;

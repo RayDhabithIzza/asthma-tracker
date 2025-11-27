@@ -34,97 +34,76 @@
 
       <form id="risk-form" class="card">
         <div class="field">
-          <label for="breath">Seberapa sering Anda mengalami sesak napas?</label>
-          <select id="breath" name="breath" required class="native-select">
+          <label for="gender">Jenis Kelamin</label>
+          <select id="gender" name="gender" required class="native-select">
             <option value="" disabled selected>Pilih salah satu</option>
-            <option value="jarang">Jarang</option>
-            <option value="kadang-kadang">Kadang-kadang</option>
-            <option value="sering">Sering</option>
+            <option value="laki-laki">Laki-laki</option>
+            <option value="perempuan">Perempuan</option>
           </select>
         </div>
 
         <div class="field">
-          <label for="smoke">Apakah Anda terpapar asap rokok di rumah/kantor?</label>
-          <select id="smoke" name="smoke" required class="native-select">
+          <label for="age_group">Usia</label>
+          <select id="age_group" name="age_group" required class="native-select">
             <option value="" disabled selected>Pilih salah satu</option>
+            <option value="anak-anak">Anak-anak (6–12)</option>
+            <option value="remaja">Remaja (13–18)</option>
+            <option value="dewasa">Dewasa (19–59)</option>
+            <option value="lansia">Lansia (60+)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="smoke_chest_tightness">Apakah dada Anda sering sesak saat terpapar asap rokok?</label>
+          <select id="smoke_chest_tightness" name="smoke_chest_tightness" required class="native-select">
+            <option value="" disabled selected>Pilih salah satu</option>
+            <option value="sering">Sering</option>
+            <option value="kadang-kadang">Kadang-kadang</option>
             <option value="tidak pernah">Tidak pernah</option>
-            <option value="kadang-kadang">Kadang-kadang</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="cold_dust_trigger">Apakah gejala muncul ketika Anda berada di daerah udara dingin atau terkena debu?</label>
+          <select id="cold_dust_trigger" name="cold_dust_trigger" required class="native-select">
+            <option value="" disabled selected>Pilih salah satu</option>
+            <option value="iya">Iya</option>
+            <option value="tidak">Tidak</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="family_asthma">Apakah ada keluarga/kerabat yang memiliki riwayat asma?</label>
+          <select id="family_asthma" name="family_asthma" required class="native-select">
+            <option value="" disabled selected>Pilih salah satu</option>
+            <option value="iya">Iya</option>
+            <option value="tidak">Tidak</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="exercise_trigger">Apakah gejala pernapasan muncul setelah berolahraga (berlari)?</label>
+          <select id="exercise_trigger" name="exercise_trigger" required class="native-select">
+            <option value="" disabled selected>Pilih salah satu</option>
+            <option value="iya">Iya</option>
+            <option value="tidak">Tidak</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="night_shortness">Apakah Anda sering mengalami sesak napas di malam hari?</label>
+          <select id="night_shortness" name="night_shortness" required class="native-select">
+            <option value="" disabled selected>Pilih salah satu</option>
             <option value="sering">Sering</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="allergy">Apakah Anda memiliki alergi (debu, serbuk sari, bulu hewan)?</label>
-          <select id="allergy" name="allergy" required class="native-select">
-            <option value="" disabled selected>Pilih salah satu</option>
-            <option value="tidak">Tidak</option>
-            <option value="ringan">Ringan</option>
-            <option value="berat">Berat</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="family_history">Apakah Anda memiliki riwayat keluarga dengan penyakit asma atau gangguan pernapasan lainnya?</label>
-          <select id="family_history" name="family_history" required class="native-select">
-            <option value="" disabled selected>Pilih salah satu</option>
-            <option value="ya">Ya</option>
-            <option value="tidak">Tidak</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="diagnosed_other">Apakah Anda pernah didiagnosis dengan penyakit pernapasan lain seperti bronkitis atau pneumonia?</label>
-          <select id="diagnosed_other" name="diagnosed_other" required class="native-select">
-            <option value="" disabled selected>Pilih salah satu</option>
-            <option value="ya">Ya</option>
-            <option value="tidak">Tidak</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="exercise">Apakah Anda rutin berolahraga setiap minggu?</label>
-          <select id="exercise" name="exercise" required class="native-select">
-            <option value="" disabled selected>Pilih salah satu</option>
-            <option value="tidak pernah">Tidak Pernah</option>
             <option value="kadang-kadang">Kadang-kadang</option>
-            <option value="sering">Sering</option>
+            <option value="tidak pernah">Tidak pernah</option>
           </select>
         </div>
 
         <div class="field">
-          <label for="fast_food">Seberapa sering Anda mengonsumsi makanan cepat saji atau makanan yang mengandung bahan pengawet?</label>
-          <select id="fast_food" name="fast_food" required class="native-select">
+          <label for="laugh_trigger">Apakah saat Anda ketawa berlebihan muncul suatu gejala?</label>
+          <select id="laugh_trigger" name="laugh_trigger" required class="native-select">
             <option value="" disabled selected>Pilih salah satu</option>
-            <option value="jarang">Jarang</option>
-            <option value="kadang-kadang">Kadang-kadang</option>
-            <option value="sering">Sering</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="smoking">Apakah Anda pernah merokok atau sedang merokok?</label>
-          <select id="smoking" name="smoking" required class="native-select">
-            <option value="" disabled selected>Pilih salah satu</option>
-            <option value="tidak pernah">Tidak Pernah</option>
-            <option value="sudah berhenti">Sudah Berhenti</option>
-            <option value="saat ini merokok">Saat Ini Merokok</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="inhaler">Apakah Anda menggunakan inhaler atau obat asma secara rutin?</label>
-          <select id="inhaler" name="inhaler" required class="native-select">
-            <option value="" disabled selected>Pilih salah satu</option>
-            <option value="ya">Ya</option>
-            <option value="tidak">Tidak</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="meds_breath_cough">Apakah Anda pernah menggunakan obat-obatan untuk mengatasi sesak napas atau batuk yang berkepanjangan?</label>
-          <select id="meds_breath_cough" name="meds_breath_cough" required class="native-select">
-            <option value="" disabled selected>Pilih salah satu</option>
-            <option value="ya">Ya</option>
+            <option value="iya">Iya</option>
             <option value="tidak">Tidak</option>
           </select>
         </div>

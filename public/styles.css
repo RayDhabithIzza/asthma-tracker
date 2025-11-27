@@ -466,6 +466,10 @@ select::-ms-expand { display: none; }
 .modal-body p { margin: 0; font-size: 16px; }
 .modal-message { margin-bottom: 10px; }
 .modal-reco { line-height: 1.6; }
+.modal-answers { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(11, 109, 220, 0.12); }
+.answer-list { list-style: none; padding: 0; margin: 0; }
+.answer-list li { padding: 6px 0; font-size: 14px; color: #163b63; border-bottom: 1px dashed rgba(11, 109, 220, 0.08); }
+.answer-list li:last-child { border-bottom: none; }
 
 @media (max-width: 480px) {
   .modal { width: calc(100% - 32px); }
