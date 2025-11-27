@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b6ddc" />
+    <title>Asthma Tracker — Kuisioner</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <canvas id="bg-canvas" class="bg-canvas"></canvas>
+    <div class="bg-dots">
+      <span class="dot d1"></span>
+      <span class="dot d2"></span>
+      <span class="dot d3"></span>
+      <span class="dot d4"></span>
+      <span class="dot d5"></span>
+      <span class="dot d6"></span>
+      <span class="dot d7"></span>
+      <span class="dot d8"></span>
+      <span class="dot d9"></span>
+      <span class="dot d10"></span>
+      <span class="dot d11"></span>
+      <span class="dot d12"></span>
+    </div>
+    <div class="container">
+
+      <h1>Asthma Tracker</h1>
+      <p class="subtitle">Isi kuisioner untuk memprediksi tingkat risiko asma Anda</p>
+      <p class="subtitle">Website ini dibuat untuk membantu Anda memahami faktor-faktor yang mungkin meningkatkan risiko asma. Berdasarkan jawaban Anda, sistem akan menghitung perkiraan tingkat risiko sebagai acuan awal. Hasil bukan diagnosis medis; untuk kepastian dan penanganan yang tepat, konsultasikan dengan tenaga kesehatan profesional.</p>
+
+      <form id="risk-form" class="card">
+        <div class="field">
+          <label for="breath">Seberapa sering Anda mengalami sesak napas?</label>
+          <select id="breath" name="breath" required class="native-select">
+            <option value="" disabled selected>Pilih salah satu</option>
+            <option value="jarang">Jarang</option>
+            <option value="kadang-kadang">Kadang-kadang</option>
+            <option value="sering">Sering</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="smoke">Apakah Anda terpapar asap rokok di rumah/kantor?</label>
+          <select id="smoke" name="smoke" required class="native-select">
+            <option value="" disabled selected>Pilih salah satu</option>
+            <option value="tidak pernah">Tidak pernah</option>
+            <option value="kadang-kadang">Kadang-kadang</option>
+            <option value="sering">Sering</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="allergy">Apakah Anda memiliki alergi (debu, serbuk sari, bulu hewan)?</label>
+          <select id="allergy" name="allergy" required class="native-select">
+            <option value="" disabled selected>Pilih salah satu</option>
+            <option value="tidak">Tidak</option>
+            <option value="ringan">Ringan</option>
+            <option value="berat">Berat</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="family_history">Apakah Anda memiliki riwayat keluarga dengan penyakit asma atau gangguan pernapasan lainnya?</label>
+          <select id="family_history" name="family_history" required class="native-select">
+            <option value="" disabled selected>Pilih salah satu</option>
+            <option value="ya">Ya</option>
+            <option value="tidak">Tidak</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="diagnosed_other">Apakah Anda pernah didiagnosis dengan penyakit pernapasan lain seperti bronkitis atau pneumonia?</label>
+          <select id="diagnosed_other" name="diagnosed_other" required class="native-select">
+            <option value="" disabled selected>Pilih salah satu</option>
+            <option value="ya">Ya</option>
+            <option value="tidak">Tidak</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="exercise">Apakah Anda rutin berolahraga setiap minggu?</label>
+          <select id="exercise" name="exercise" required class="native-select">
+            <option value="" disabled selected>Pilih salah satu</option>
+            <option value="tidak pernah">Tidak Pernah</option>
+            <option value="kadang-kadang">Kadang-kadang</option>
+            <option value="sering">Sering</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="fast_food">Seberapa sering Anda mengonsumsi makanan cepat saji atau makanan yang mengandung bahan pengawet?</label>
+          <select id="fast_food" name="fast_food" required class="native-select">
+            <option value="" disabled selected>Pilih salah satu</option>
+            <option value="jarang">Jarang</option>
+            <option value="kadang-kadang">Kadang-kadang</option>
+            <option value="sering">Sering</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="smoking">Apakah Anda pernah merokok atau sedang merokok?</label>
+          <select id="smoking" name="smoking" required class="native-select">
+            <option value="" disabled selected>Pilih salah satu</option>
+            <option value="tidak pernah">Tidak Pernah</option>
+            <option value="sudah berhenti">Sudah Berhenti</option>
+            <option value="saat ini merokok">Saat Ini Merokok</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="inhaler">Apakah Anda menggunakan inhaler atau obat asma secara rutin?</label>
+          <select id="inhaler" name="inhaler" required class="native-select">
+            <option value="" disabled selected>Pilih salah satu</option>
+            <option value="ya">Ya</option>
+            <option value="tidak">Tidak</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="meds_breath_cough">Apakah Anda pernah menggunakan obat-obatan untuk mengatasi sesak napas atau batuk yang berkepanjangan?</label>
+          <select id="meds_breath_cough" name="meds_breath_cough" required class="native-select">
+            <option value="" disabled selected>Pilih salah satu</option>
+            <option value="ya">Ya</option>
+            <option value="tidak">Tidak</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn">Prediksi Risiko</button>
+      </form>
+
+    </div>
+
+    <div id="result-modal" class="modal-overlay" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <button class="modal-close" aria-label="Tutup">×</button>
+        <div class="modal-body">
+          <h2 id="modal-title">Hasil Prediksi</h2>
+          <p class="modal-message"></p>
+          <p class="modal-reco"></p>
+          <div class="modal-answers"></div>
+          <p class="modal-disclaimer"></p>
+        </div>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+  </html>

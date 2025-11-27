@@ -36,6 +36,8 @@ body {
   z-index: 1;
 }
 
+.hidden { display: none; }
+
 .bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 .bg-dots { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 .dot { position: absolute; width: 6px; height: 6px; background: rgba(255,255,255,0.45); border-radius: 50%; filter: blur(0.3px); }
@@ -89,6 +91,47 @@ h1.hero-title {
   -webkit-background-clip: text;
   background-clip: text;
 }
+.title-wrap { position: relative; display: inline-block; }
+.title-wrap { will-change: transform; }
+.title-stroke {
+  position: relative;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.95);
+  text-shadow: 0 2px 10px rgba(11, 109, 220, 0.35);
+  z-index: 2;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+.hero-title { transition: transform 0.3s ease; }
+.hero-badge:hover .hero-title { transform: scale(1.1); }
+.hero-badge:hover .title-stroke { color: #FF5733; text-shadow: 0 0 15px rgba(255, 87, 51, 0.7), 0 0 30px rgba(255, 87, 51, 0.7); }
+.title-fill {
+  position: absolute;
+  inset: 0;
+  color: transparent;
+  background-image: linear-gradient(180deg, #69d1ff 0%, #0b6ddc 100%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='12' viewBox='0 0 40 12'%3E%3Cpath d='M0 6 Q10 0 20 6 T40 6 V12 H0 Z' fill='%2369d1ff'/%3E%3C/svg%3E");
+  background-repeat: no-repeat, repeat-x;
+  background-size: 100% 100%, 40px 12px;
+  background-position: 0 100%, 0 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  clip-path: inset(100% 0 0 0);
+  animation: liquidFill 6s cubic-bezier(0.22, 1, 0.36, 1) forwards, waveSlide 3.2s linear infinite, waveBob 2.6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+@keyframes liquidFill { to { clip-path: inset(0% 0 0 0); } }
+@keyframes waveSlide { from { background-position: 0 100%, 0 100%; } to { background-position: 0 100%, -40px 100%; } }
+@keyframes waveBob { 0%, 100% { background-position: 0 100%, 0 100%; } 50% { background-position: 0 100%, 0 98%; } }
+@keyframes textShiftMove {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(20px); }
+  100% { transform: translateX(0); }
+}
+@keyframes strokeColorShift {
+  0% { -webkit-text-stroke: 1px #2C6B9B; }
+  50% { -webkit-text-stroke: 1px #FF5733; }
+  100% { -webkit-text-stroke: 1px #2C6B9B; }
+}
 
 .hero-icon {
   display: inline-block;
@@ -136,6 +179,15 @@ h1 {
   gap: 16px 16px;
 }
 
+.intro-content { grid-column: 1 / -1; }
+.intro-list { grid-column: 1 / -1; line-height: 1.6; margin-bottom: 12px; }
+.intro-list p { margin: 0 0 6px; }
+.disclaimer { grid-column: 1 / -1; margin-top: 12px; font-size: 14px; opacity: 0.95; background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.55); border-radius: 12px; padding: 12px 14px; box-shadow: 0 8px 18px rgba(11, 109, 220, 0.12); }
+.disclaimer strong { margin-right: 6px; }
+.modal-answers { margin-top: 10px; }
+.answer-list { padding-left: 18px; margin: 0; }
+.answer-list li { margin: 4px 0; }
+
 .field {
   margin: 0;
 }
@@ -147,7 +199,7 @@ label {
   transition: color 0.2s ease;
 }
 
-.native-select { display: none; }
+ /* native select ditampilkan secara default; akan disembunyikan via JS saat dropdown kustom berhasil dibangun */
 
 select {
   width: 100%;
