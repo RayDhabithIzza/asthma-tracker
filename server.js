@@ -98,6 +98,6 @@ app.post('/predict', (req, res) => {
   res.json({ risk });
 });
 
-app.listen(port, () => {
-  console.log(`Server berjalan di http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server berjalan di port ${port}`);
 });
